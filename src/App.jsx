@@ -64,7 +64,7 @@ function App() {
     <div className="App">
       <label className='slider-container'>
         <Slider onclick={() => {changeSiteTheme(siteTheme)}} state={siteTheme}/>
-        <h2>{siteTheme[0].toUpperCase() + siteTheme.substring(1)}</h2>
+        <h2>{siteTheme}</h2>
       </label>
       <div className='code'>
         <h1>Code Editor</h1>
