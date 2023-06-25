@@ -7,22 +7,35 @@ import Slider from './Components/Slider'
 
 function App() {
   const [openedEditor, setOpenedEditor] = useState(() => {
-    return localStorage.getItem("openedEditor")
+    const localValue = localStorage.getItem("openedEditor")
+    if (localValue == null) {return "html" }
+    else {return localValue}
+
   });
   const [siteTheme, setSiteTheme] = useState(() => {
-    return localStorage.getItem("Theme")
+    const localValue = localStorage.getItem("Theme")
+    if (localValue == null) {return "dark"}
+    else {return localValue}
   });
   const [active, setActive] = useState(() => {
-    return localStorage.getItem("active")
+    const localValue = localStorage.getItem("active")
+    if (localValue == null) {return "html"}
+    else {return localValue}
   });
   const [html, setHtml] = useState(() => {
-    return localStorage.getItem("HTML")
+    const localValue = localStorage.getItem("HTML")
+    if (localValue == null) {return ""}
+    else {return localValue}
   });
   const [css, setCss] = useState(() => {
-    return localStorage.getItem("CSS")
+    const localValue = localStorage.getItem("CSS")
+    if (localValue == null) {return ""}
+    else {return localValue}
   });
   const [js, setJs] = useState(() => {
-    return localStorage.getItem("JS")
+    const localValue = localStorage.getItem("JS")
+    if (localValue == null) {return ""}
+    else {return localValue}
   });
   const [srcDoc, setSrcDoc] = useState(` `);
 

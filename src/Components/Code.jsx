@@ -16,7 +16,9 @@ import {Controlled as ControlledEditorComponent } from 'react-codemirror2';
 
 const Code = ({language, value, setEditorState}) => {
     const [theme, setTheme] = useState(() => {
-        return localStorage.getItem("codeTheme")
+        const localValue = localStorage.getItem("codeTheme")
+        if (localValue == null) {return "dracula"}
+        else {return localValue}
     })
     const handleChange = (editor, data, value) => {
         setEditorState(value);
