@@ -1,5 +1,5 @@
 import React from "react"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/dracula.css';
 import 'codemirror/theme/material.css';
@@ -15,16 +15,21 @@ import {Controlled as ControlledEditorComponent } from 'react-codemirror2';
 
 
 const Code = ({language, value, setEditorState}) => {
-    const [theme, setTheme] = useState("dracula")
+    const [theme, setTheme] = useState(() => {
+        return localStorage.getItem("codeTheme")
+    })
     const handleChange = (editor, data, value) => {
         setEditorState(value);
     }
+    useEffect(() => {
+        window.localStorage.setItem("codeTheme", theme);
+    }, [theme])
     const themeArray = ['dracula', 'material', 'mdn-like', 'the-matrix', 'night']
     return (
         <div className="editor-container">
             <div style={{marginBottom: "10px"}}>
                 <label htmlFor="theme">Choose a theme: </label>
-                <select id="theme" name="theme" onChange={(el) => {
+                <select id="theme" name="theme" defaultValue={theme} onChange={(el) => {
                     setTheme(el.target.value)
                  }}>
                    {

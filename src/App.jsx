@@ -6,12 +6,24 @@ import Code from './Components/Code'
 import Slider from './Components/Slider'
 
 function App() {
-  const [openedEditor, setOpenedEditor] = useState("html");
-  const [siteTheme, setSiteTheme] = useState("dark");
-  const [active, setActive] = useState("html");
-  const [html, setHtml] = useState('');
-  const [css, setCss] = useState('');
-  const [js, setJs] = useState('');
+  const [openedEditor, setOpenedEditor] = useState(() => {
+    return localStorage.getItem("openedEditor")
+  });
+  const [siteTheme, setSiteTheme] = useState(() => {
+    return localStorage.getItem("Theme")
+  });
+  const [active, setActive] = useState(() => {
+    return localStorage.getItem("active")
+  });
+  const [html, setHtml] = useState(() => {
+    return localStorage.getItem("HTML")
+  });
+  const [css, setCss] = useState(() => {
+    return localStorage.getItem("CSS")
+  });
+  const [js, setJs] = useState(() => {
+    return localStorage.getItem("JS")
+  });
   const [srcDoc, setSrcDoc] = useState(` `);
 
   const onTabClick = editorName => {
@@ -25,6 +37,7 @@ function App() {
 
   useEffect(() => {
     document.body.setAttribute("class", siteTheme)
+    window.localStorage.setItem("Theme", siteTheme)
     const timeOut = setTimeout(() => {
       setSrcDoc(
         `
@@ -35,14 +48,22 @@ function App() {
           </html>
         `
       )
+      window.localStorage.setItem("HTML", html)
+      window.localStorage.setItem("CSS", css)
+      window.localStorage.setItem("JS", js)
     }, 250);
     return () => clearTimeout(timeOut)
   }, [html, css, js, siteTheme])
 
+  useEffect(() => {
+    window.localStorage.setItem("openedEditor", openedEditor)
+    window.localStorage.setItem("active", active)
+  }, [openedEditor, active])
+
   return (
     <div className="App">
       <label className='slider-container'>
-        <Slider onclick={() => {changeSiteTheme(siteTheme)}} />
+        <Slider onclick={() => {changeSiteTheme(siteTheme)}} state={siteTheme}/>
         <h2>{siteTheme[0].toUpperCase() + siteTheme.substring(1)}</h2>
       </label>
       <div className='code'>
