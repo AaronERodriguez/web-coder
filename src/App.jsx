@@ -4,13 +4,19 @@ import './App.css'
 import Button from './Components/Button'
 import Code from './Components/Code'
 import Slider from './Components/Slider'
+import Range from './Components/Range'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
   const [openedEditor, setOpenedEditor] = useState(() => {
     const localValue = localStorage.getItem("openedEditor")
     if (localValue == null) {return "html" }
     else {return localValue}
-
+  });
+  const [codeFont, setCodeFont] = useState(() => {
+    const localValue = localStorage.getItem("codeFont")
+    if (localValue == null) {return "25"}
+    else {return localValue}
   });
   const [siteTheme, setSiteTheme] = useState(() => {
     const localValue = localStorage.getItem("Theme")
@@ -73,11 +79,24 @@ function App() {
     window.localStorage.setItem("active", active)
   }, [openedEditor, active])
 
+  useEffect(() => {
+    window.localStorage.setItem("codeFont", codeFont);
+    console.log(codeFont)
+    const codeEditors = document.querySelectorAll('.CodeMirror');
+    codeEditors.forEach(codeEditor => {
+      codeEditor.style.fontSize = codeFont + "px";
+    })
+  }, [codeFont])
+
   return (
     <div className="App">
       <label className='slider-container'>
         <Slider onclick={() => {changeSiteTheme(siteTheme)}} state={siteTheme}/>
         <h2>{siteTheme}</h2>
+      </label>
+      <label className='slider-container'>
+        <Range value={codeFont} changeState={setCodeFont} />
+        <h2>Font size: {codeFont + "px"}</h2>
       </label>
       <div className='code'>
         <h1>Code Editor</h1>
@@ -95,7 +114,8 @@ function App() {
                 openedEditor === "html" ? (
                   <Code language="xml"
                   value={html}
-                  setEditorState={setHtml} />
+                  setEditorState={setHtml}
+                  style={{fontSize: codeFont}} />
                 ) : openedEditor === "css" ? (
                   <Code language="css"
                   value={css}
