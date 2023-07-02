@@ -5,7 +5,7 @@ function FontDropDown({value, changeState}) {
         changeState(event.target.value)
     ]
     return (
-    <label className='drop-down-container' for="families" onChange={changeFamily}>
+    <label className='drop-down-container' onChange={changeFamily}>
         Select a font:
         <select name='families' id='famlies' defaultValue={value}>
             <option value="arial">Arial</option>
