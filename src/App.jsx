@@ -6,7 +6,6 @@ import Code from './Components/Code'
 import Slider from './Components/Slider'
 import Range from './Components/Range'
 import FontDropDown from './Components/fontDropDown'
-import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
   const [openedEditor, setOpenedEditor] = useState(() => {
