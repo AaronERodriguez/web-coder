@@ -1,6 +1,12 @@
 .button-container {
   display: flex;
   justify-content: center;
+  padding: 10px 0px;
+}
+.drop-down-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0px;
 }
 .editor-container{
   padding-top: 0.4%;

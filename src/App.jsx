@@ -5,6 +5,7 @@ import Button from './Components/Button'
 import Code from './Components/Code'
 import Slider from './Components/Slider'
 import Range from './Components/Range'
+import FontDropDown from './Components/fontDropDown'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
@@ -18,6 +19,11 @@ function App() {
     if (localValue == null) {return "25"}
     else {return localValue}
   });
+  const [codeFontFamily, setCodeFontFamily] = useState(() => {
+    const localValue = localStorage.getItem("fontFamily")
+    if (localValue == null) {return "monospace"}
+    else {return localValue}
+  })
   const [siteTheme, setSiteTheme] = useState(() => {
     const localValue = localStorage.getItem("Theme")
     if (localValue == null) {return "dark"}
@@ -81,12 +87,14 @@ function App() {
 
   useEffect(() => {
     window.localStorage.setItem("codeFont", codeFont);
+    window.localStorage.setItem("fontFamily", codeFontFamily)
     console.log(codeFont)
     const codeEditors = document.querySelectorAll('.CodeMirror');
     codeEditors.forEach(codeEditor => {
       codeEditor.style.fontSize = codeFont + "px";
+      codeEditor.style.fontFamily = codeFontFamily;
     })
-  }, [codeFont])
+  }, [codeFont, codeFontFamily])
 
   return (
     <div className="App">
@@ -108,6 +116,7 @@ function App() {
           <Button className={`${active === "js" ? "active-" + siteTheme: siteTheme}`} title="JavaScript" onclick={() => {
             onTabClick("js")}} id="js" />  
         </div>
+        <FontDropDown value={codeFontFamily} changeState={setCodeFontFamily} />
         <div className='code-container'>
           <div className='editor-container'>
               {
