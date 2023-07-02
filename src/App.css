@@ -103,3 +103,6 @@ input:checked + .slider:before {
 .code-mirror-wrapper {
   text-align: start;
 }
+:root, [data-bs-theme=light] {
+  border: 0;
+}
