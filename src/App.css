@@ -20,10 +20,15 @@
 .dark {
   background-color: #202124;
   color: white;
+  border-color: #202124;
 }
 .light {
   background-color: white;
   color: #202124;
+  border-color: white;
+}
+button.light {
+  border-color:#202124;
 }
 button.dark:hover, button.active-dark:hover {
   background-color: #7d808e;
