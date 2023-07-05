@@ -9,7 +9,6 @@ function FileDropDown({value, changeState}) {
         Select a File: 
         <select name='files' id='files' defaultValue={value}>
             <option value="placeHolder">Create a File</option>
-            <option value="test">Test</option>
         </select>
     </label>
   )
