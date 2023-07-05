@@ -11,6 +11,13 @@ import AddFile from './Components/AddFile'
 
 function App() {
   let createdFile = localStorage.getItem("createdFiles") === null ? [] : localStorage.getItem("createdFiles");
+  for (i = 0; i < createdFile.length; i++) {
+    let newOption = document.createElement('option');
+    let optionText = document.createTextNode(createdFile[i]);
+    newOption.appendChild(optionText);
+    newOption.setAttribute('value', createdFile[i]);
+    document.getElementById('files').appendChild(newOption);
+  }
   const [currentFile, setCurrentFile] = useState(() => {
     const localValue = localStorage.getItem("currentFile")
     if (localValue == null) {return "placeHolder"}
