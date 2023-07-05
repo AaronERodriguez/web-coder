@@ -11,7 +11,7 @@ import AddFile from './Components/AddFile'
 
 function App() {
   let createdFile = localStorage.getItem("createdFiles") === null ? [] : localStorage.getItem("createdFiles");
-  for (i = 0; i < createdFile.length; i++) {
+  for (let i = 0; i < createdFile.length; i++) {
     let newOption = document.createElement('option');
     let optionText = document.createTextNode(createdFile[i]);
     newOption.appendChild(optionText);
