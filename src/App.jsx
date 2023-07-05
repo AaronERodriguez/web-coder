@@ -10,14 +10,6 @@ import FileDropDown from './Components/FileDropDown'
 import AddFile from './Components/AddFile'
 
 function App() {
-  let createdFile = localStorage.getItem("createdFiles") === null ? [] : localStorage.getItem("createdFiles");
-  for (let i = 0; i < createdFile.length; i++) {
-    let newOption = document.createElement('option');
-    let optionText = document.createTextNode(createdFile[i]);
-    newOption.appendChild(optionText);
-    newOption.setAttribute('value', createdFile[i]);
-    document.getElementById('files').appendChild(newOption);
-  }
   const [currentFile, setCurrentFile] = useState(() => {
     const localValue = localStorage.getItem("currentFile")
     if (localValue == null) {return "placeHolder"}
@@ -25,7 +17,6 @@ function App() {
   })
   const [openedEditor, setOpenedEditor] = useState(() => {
     const localValue = localStorage.getItem(currentFile);
-    console.log(localValue)
     if (localValue === "[object Object]" || localValue === null) {return "html"}
     else {return JSON.parse(localValue).openedEditor}
     
@@ -54,13 +45,12 @@ function App() {
     const localValue = localStorage.getItem(currentFile);
     if (localValue === "[object Object]" || localValue === null) {
       return ""}
-    else {
-      console.log(JSON.parse(localValue).HTML);
-      return JSON.parse(localValue).HTML}
-  });
-  const [css, setCss] = useState(() => {
-    const localValue = localStorage.getItem(currentFile);
-    if (localValue === "[object Object]" || localValue === null) {return ""}
+      else {
+        return JSON.parse(localValue).HTML}
+      });
+      const [css, setCss] = useState(() => {
+        const localValue = localStorage.getItem(currentFile);
+        if (localValue === "[object Object]" || localValue === null) {return ""}
     else {return JSON.parse(localValue).CSS}
   });
   const [js, setJs] = useState(() => {
@@ -70,6 +60,21 @@ function App() {
   });
   const [srcDoc, setSrcDoc] = useState(` `);
 
+  let createdFile = localStorage.getItem("createdFiles") === null ? [] : localStorage.getItem("createdFiles").split(",");
+  window.onload = () => {
+    for (let i = 0; i < createdFile.length; i++) {
+      console.log(createdFile[i])
+      let newOption = document.createElement('option');
+      let optionText = document.createTextNode(createdFile[i]);
+      newOption.appendChild(optionText);
+      newOption.setAttribute('value', createdFile[i]);
+      if (createdFile[i] === currentFile) {
+        newOption.selected = true
+      } else {newOption.selected = false}
+      document.getElementById('files').appendChild(newOption);
+    }
+  }
+  
   const onTabClick = editorName => {
     setOpenedEditor(editorName);
     setActive(editorName)
@@ -141,7 +146,6 @@ function App() {
   useEffect(() => {
     window.localStorage.setItem("codeFont", codeFont);
     window.localStorage.setItem("fontFamily", codeFontFamily)
-    console.log(codeFont)
     const codeEditors = document.querySelectorAll('.CodeMirror');
     codeEditors.forEach(codeEditor => {
       codeEditor.style.fontSize = codeFont + "px";
@@ -150,7 +154,6 @@ function App() {
   }, [codeFont, codeFontFamily])
   useEffect(() => {
     window.localStorage.setItem("currentFile", currentFile);
-    console.log(currentFile)
     let fileObjectPrev = window.localStorage.getItem(currentFile);
     let fileObject;
     if (fileObjectPrev === "[object Object]") {return} else {
