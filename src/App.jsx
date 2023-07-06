@@ -8,6 +8,7 @@ import Range from './Components/Range'
 import FontDropDown from './Components/fontDropDown'
 import FileDropDown from './Components/FileDropDown'
 import AddFile from './Components/AddFile'
+import DeleteFile from './Components/DeleteFile'
 
 function App() {
   const [currentFile, setCurrentFile] = useState(() => {
@@ -62,6 +63,10 @@ function App() {
 
   let createdFile = localStorage.getItem("createdFiles") === null ? [] : localStorage.getItem("createdFiles").split(",");
   window.onload = () => {
+    console.log(createdFile)
+    if (createdFile === [] || createdFile === null) {
+      return;
+    }
     for (let i = 0; i < createdFile.length; i++) {
       console.log(createdFile[i])
       let newOption = document.createElement('option');
@@ -105,6 +110,34 @@ function App() {
     window.localStorage.setItem(fileName, JSON.stringify(fileObject));
     createdFile.push(fileName);
     window.localStorage.setItem("createdFiles", createdFile);
+    document.getElementById('fname').value = "";
+  }
+
+  const deleteFile = () => {
+    let previousFile;
+    let selectElement = document.getElementById('files');
+    let fileToDelete;
+    if (currentFile === "placeHolder") {
+      return alert("The default file can't be deleted")
+    }
+    if (createdFile.indexOf(currentFile) >= 1) {
+      previousFile = createdFile[createdFile.indexOf(currentFile) - 1];
+      selectElement.value = previousFile;
+      selectElement.remove(createdFile.indexOf(currentFile) + 1);
+      fileToDelete = createdFile.splice(createdFile.indexOf(currentFile));
+      window.localStorage.setItem("createdFiles", createdFile);
+      window.localStorage.removeItem(fileToDelete);
+      setCurrentFile(previousFile);
+    } else {
+      previousFile = "placeHolder";
+      selectElement.value = previousFile;
+      selectElement.remove(createdFile.indexOf(currentFile) + 1);
+      fileToDelete = createdFile.splice(createdFile.indexOf(currentFile));
+      createdFile = [];
+      window.localStorage.removeItem("createdFiles");
+      window.localStorage.removeItem(fileToDelete);
+      setCurrentFile(previousFile);
+    }
   }
 
   useEffect(() => {
@@ -189,6 +222,7 @@ function App() {
         </div>
         <FontDropDown value={codeFontFamily} changeState={setCodeFontFamily} />
         <FileDropDown value={currentFile} changeState={setCurrentFile} />
+        <DeleteFile removeFile={deleteFile} />
         <AddFile addFile={createNewFile} />
         <div className='code-container'>
           <div className='editor-container'>
