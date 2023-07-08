@@ -94,6 +94,8 @@ function App() {
       return alert("Please type a name for your File")
     } else if (createdFile.indexOf(fileName) !== -1) {
       return alert("This file name already exists, please use another name or delete that file")
+    } else if (fileName.includes(",")) {
+      return alert("File name cannot contain comma.");
     }
     const fileObject = {
       openedEditor: "html",
